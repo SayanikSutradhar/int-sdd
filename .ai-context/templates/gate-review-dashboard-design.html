@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INT Gate Review Dashboard — Employee Internal Transfer</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --border: #2e3248;
+      --accent: #5b6af5;
+      --accent-hover: #7b89ff;
+      --green: #22c55e;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --blue: #38bdf8;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --font: 'Segoe UI', system-ui, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 { font-size: 18px; font-weight: 600; letter-spacing: 0.3px; }
+    header span { font-size: 12px; color: var(--muted); }
+
+    .container { padding: 28px 32px; max-width: 1400px; margin: 0 auto; }
+
+    /* Summary Cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 8px; }
+    .card .value { font-size: 28px; font-weight: 700; }
+    .card.green .value { color: var(--green); }
+    .card.yellow .value { color: var(--yellow); }
+    .card.red .value { color: var(--red); }
+    .card.blue .value { color: var(--blue); }
+    .card.accent .value { color: var(--accent-hover); }
+
+    /* Section */
+    section { margin-bottom: 40px; }
+    section h2 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      background: var(--surface);
+    }
+
+    th {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(91, 106, 245, 0.06); }
+
+    td {
+      padding: 11px 14px;
+      vertical-align: middle;
+      font-size: 13px;
+    }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .badge-draft       { background: rgba(148,163,184,0.15); color: #94a3b8; }
+    .badge-review      { background: rgba(245,158,11,0.15);  color: #f59e0b; }
+    .badge-approved    { background: rgba(34,197,94,0.15);   color: #22c55e; }
+    .badge-rejected    { background: rgba(239,68,68,0.15);   color: #ef4444; }
+    .badge-changes     { background: rgba(251,191,36,0.15);  color: #fbbf24; }
+    .badge-dev         { background: rgba(56,189,248,0.15);  color: #38bdf8; }
+    .badge-qa          { background: rgba(129,140,248,0.15); color: #818cf8; }
+    .badge-released    { background: rgba(34,197,94,0.15);   color: #22c55e; }
+    .badge-pending     { background: rgba(148,163,184,0.12); color: #64748b; }
+
+    /* Spec ID link style */
+    .spec-id {
+      font-family: monospace;
+      font-size: 12px;
+      color: var(--accent-hover);
+    }
+
+    /* Criteria grid */
+    .criteria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    .criteria-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .criteria-item .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-pass   { background: var(--green); }
+    .dot-needs  { background: var(--yellow); }
+    .dot-fail   { background: var(--red); }
+    .dot-pending{ background: var(--muted); }
+
+    .criteria-item .crit-name { font-size: 12px; color: var(--muted); }
+    .criteria-item .crit-val  { font-size: 12px; font-weight: 600; margin-top: 2px; }
+
+    /* Review record detail */
+    .review-detail {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+
+    .review-detail .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .review-detail .meta-item .key  { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.6px; }
+    .review-detail .meta-item .val  { font-size: 13px; font-weight: 500; margin-top: 3px; }
+
+    .review-detail h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin: 16px 0 8px; }
+    .review-detail p  { font-size: 13px; line-height: 1.6; color: var(--text); }
+
+    /* Empty state */
+    .empty { padding: 32px; text-align: center; color: var(--muted); font-size: 13px; }
+
+    /* Footer */
+    footer {
+      margin-top: 48px;
+      padding: 16px 32px;
+      border-top: 1px solid var(--border);
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🏢 Employee Internal Transfer — Gate Review Dashboard</h1>
+  <span id="last-updated">Last updated: —</span>
+</header>
+
+<div class="container">
+
+  <!-- Summary Cards -->
+  <div class="cards">
+    <div class="card blue">
+      <div class="label">Total Specs</div>
+      <div class="value" id="total-specs">0</div>
+    </div>
+    <div class="card yellow">
+      <div class="label">Pending Gate 1</div>
+      <div class="value" id="pending-g1">0</div>
+    </div>
+    <div class="card green">
+      <div class="label">Gate 1 Approved</div>
+      <div class="value" id="approved-g1">0</div>
+    </div>
+    <div class="card accent">
+      <div class="label">Under Development</div>
+      <div class="value" id="in-dev">0</div>
+    </div>
+    <div class="card yellow">
+      <div class="label">Pending Gate 2</div>
+      <div class="value" id="pending-g2">0</div>
+    </div>
+    <div class="card green">
+      <div class="label">Gate 2 Approved</div>
+      <div class="value" id="approved-g2">0</div>
+    </div>
+    <div class="card red">
+      <div class="label">Rejected / Changes</div>
+      <div class="value" id="rejected">0</div>
+    </div>
+    <div class="card green">
+      <div class="label">Released</div>
+      <div class="value" id="released">0</div>
+    </div>
+  </div>
+
+  <!-- Spec Status Board -->
+  <section>
+    <h2>Spec Status Board</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Spec ID</th>
+            <th>Feature Title</th>
+            <th>Developer</th>
+            <th>Gate 1 Reviewer</th>
+            <th>Gate 2 Reviewer</th>
+            <th>Gate 1 Status</th>
+            <th>Gate 2 Status</th>
+            <th>Overall Status</th>
+            <th>Last Updated</th>
+          </tr>
+        </thead>
+        <tbody id="spec-board">
+          <tr>
+            <td colspan="10" class="empty">No specs registered yet. Begin by ingesting a BRD and generating feature specs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Gate 1 Review Records -->
+  <section>
+    <h2>Gate 1 — Spec Peer Review Records</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Review ID</th>
+            <th>Spec ID</th>
+            <th>Spec Name</th>
+            <th>Reviewer</th>
+            <th>Reviewer Email</th>
+            <th>Decision</th>
+            <th>Review Date</th>
+            <th>Req. Completeness</th>
+            <th>Functional Scope</th>
+            <th>Acceptance Criteria</th>
+            <th>Dev Readiness</th>
+          </tr>
+        </thead>
+        <tbody id="gate1-records">
+          <tr>
+            <td colspan="11" class="empty">No Gate 1 reviews recorded yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Gate 2 Review Records -->
+  <section>
+    <h2>Gate 2 — Code Review Records</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Review ID</th>
+            <th>Spec ID</th>
+            <th>Spec Name</th>
+            <th>Developer</th>
+            <th>Reviewer</th>
+            <th>Decision</th>
+            <th>Review Date</th>
+            <th>Code Quality</th>
+            <th>Security</th>
+            <th>Test Coverage</th>
+            <th>AC Compliance</th>
+            <th>Regression Impact</th>
+          </tr>
+        </thead>
+        <tbody id="gate2-records">
+          <tr>
+            <td colspan="12" class="empty">No Gate 2 reviews recorded yet.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Reviewer Roster -->
+  <section>
+    <h2>Reviewer Roster</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Gate</th>
+            <th>Reviewer Name</th>
+            <th>Email / User ID</th>
+            <th>Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="badge badge-review">Gate 0 / Gate 1</span></td>
+            <td>Supratim Jetty</td>
+            <td>supratim.jetty@intglobal.com</td>
+            <td>Project Manager / Spec Peer Reviewer</td>
+            <td><span class="badge badge-approved">Active</span></td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-dev">Gate 2</span></td>
+            <td>Soumyadeep Adhikary</td>
+            <td>soumyadeep@intglobal.com</td>
+            <td>Technical Lead / Code Reviewer</td>
+            <td><span class="badge badge-approved">Active</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BRD Gate 0 Status -->
+  <section>
+    <h2>BRD Gate 0 — Business Requirements Review</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>BRD Version</th>
+            <th>BRD File</th>
+            <th>Submitted By</th>
+            <th>Reviewer</th>
+            <th>Status</th>
+            <th>Review Date</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody id="brd-records">
+          <tr>
+            <td>v1.0</td>
+            <td class="spec-id">.ai-context/BRD.md</td>
+            <td>—</td>
+            <td>supratim.jetty@intglobal.com</td>
+            <td><span class="badge badge-pending">Pending BRD Ingestion</span></td>
+            <td>—</td>
+            <td>BRD not yet ingested. Run <code>/int-brd-ingestion</code> after placing BRD in <code>docs/</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  INT AI-First SDD — Employee Internal Transfer &nbsp;|&nbsp; Gate Review Dashboard &nbsp;|&nbsp; Generated: <span id="gen-date"></span>
+</footer>
+
+<script>
+  // Set timestamps
+  const now = new Date().toISOString().replace('T', ' ').substring(0, 19);
+  document.getElementById('last-updated').textContent = 'Last updated: ' + now;
+  document.getElementById('gen-date').textContent = now;
+
+  // Badge helper (can be called to dynamically populate rows via JS)
+  function badge(text) {
+    const map = {
+      'Draft': 'badge-draft',
+      'In Peer Review': 'badge-review',
+      'Approved': 'badge-approved',
+      'Rejected': 'badge-rejected',
+      'Changes Requested': 'badge-changes',
+      'Under Development': 'badge-dev',
+      'In QA': 'badge-qa',
+      'Released': 'badge-released',
+      'Ready for Release': 'badge-approved',
+      'Pending': 'badge-pending',
+    };
+    const cls = map[text] || 'badge-pending';
+    return `<span class="badge ${cls}">${text}</span>`;
+  }
+
+  // Example: to dynamically add a spec row, call:
+  // addSpecRow({ id: 'auth-login', title: 'User Authentication', dev: 'dev@example.com',
+  //   g1reviewer: 'supratim.jetty@intglobal.com', g2reviewer: 'TBD',
+  //   g1status: 'In Peer Review', g2status: 'Pending', status: 'In Peer Review', updated: '2026-09-21' });
+  function addSpecRow(spec) {
+    const tbody = document.getElementById('spec-board');
+    if (tbody.querySelector('.empty')) tbody.innerHTML = '';
+    const rows = tbody.querySelectorAll('tr').length + 1;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${rows}</td>
+      <td class="spec-id">${spec.id}</td>
+      <td>${spec.title}</td>
+      <td>${spec.dev}</td>
+      <td>${spec.g1reviewer}</td>
+      <td>${spec.g2reviewer}</td>
+      <td>${badge(spec.g1status)}</td>
+      <td>${badge(spec.g2status)}</td>
+      <td>${badge(spec.status)}</td>
+      <td>${spec.updated}</td>`;
+    tbody.appendChild(tr);
+    updateCounters();
+  }
+
+  function updateCounters() {
+    const rows = document.querySelectorAll('#spec-board tr:not(.empty)');
+    document.getElementById('total-specs').textContent = rows.length;
+    let pg1=0, ag1=0, dev=0, pg2=0, ag2=0, rej=0, rel=0;
+    rows.forEach(r => {
+      const cells = r.querySelectorAll('td');
+      if (!cells[6]) return;
+      const g1 = cells[6].textContent.trim();
+      const g2 = cells[7].textContent.trim();
+      const st = cells[8].textContent.trim();
+      if (g1 === 'In Peer Review') pg1++;
+      if (g1 === 'Approved') ag1++;
+      if (st === 'Under Development') dev++;
+      if (st === 'In QA') pg2++;
+      if (g2 === 'Approved') ag2++;
+      if (g1 === 'Rejected' || g1 === 'Changes Requested' || g2 === 'Rejected' || g2 === 'Changes Requested') rej++;
+      if (st.startsWith('Released')) rel++;
+    });
+    document.getElementById('pending-g1').textContent = pg1;
+    document.getElementById('approved-g1').textContent = ag1;
+    document.getElementById('in-dev').textContent = dev;
+    document.getElementById('pending-g2').textContent = pg2;
+    document.getElementById('approved-g2').textContent = ag2;
+    document.getElementById('rejected').textContent = rej;
+    document.getElementById('released').textContent = rel;
+  }
+</script>
+</body>
+</html>
