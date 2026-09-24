@@ -1,11 +1,11 @@
 # Business Requirements Document — Employee Internal Transfer
 
 ## BRD Status
-**Approved** (Gate 0 — 2026-09-21)
+**Pending Review** (Gate 0)
 
-## Gate 0 Approval
-- **Approved By:** Sayanik Sutradhar (sayanik.sutradhar@intglobal.com) — Software Engineer
-- **Approval Date:** 2026-09-21
+## Gate 0 Review
+- **Assigned Reviewer:** Supratim Jetty (supratim.jetty@intglobal.com) — Project Manager / BRD Reviewer
+- **Review Status:** ⏳ Pending Review
 - **Review Record:** `.ai-context/pr_reviews/BRD-20260921-124139.md`
 
 ## Version

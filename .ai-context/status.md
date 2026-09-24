@@ -7,10 +7,10 @@ Employee Internal Transfer
 Modular Monolith (Microservice Ready) | Full Stack | Node.js + Express + PostgreSQL + Sequelize | React + Vite + Tailwind + ShadCN
 
 ## Current Phase
-Consolidated Spec Generated — `.ai-context/specs/internal-transfer-sdd.spec.md` — Pending Gate 1 Review
+BRD Ingestion Complete — Awaiting Gate 0 BRD PR Review by Supratim Jetty (supratim.jetty@intglobal.com)
 
 ## Last Updated
-2026-09-21
+2026-09-24
 
 ---
 
@@ -18,7 +18,7 @@ Consolidated Spec Generated — `.ai-context/specs/internal-transfer-sdd.spec.md
 
 | BRD Version | Status | Reviewer | Review Date | Notes |
 |---|---|---|---|---|
-| v1.0 | ✅ **Approved** | sayanik.sutradhar@intglobal.com | 2026-09-21 | Gate 0 approved by Sayanik Sutradhar. Spec generation UNBLOCKED. |
+| v1.0 | ⏳ **Pending Review** | supratim.jetty@intglobal.com | — | Pending review by Supratim Jetty (Project Manager / Gate 0 Reviewer). Spec generation & Gate 1 submission are ON HOLD. |
 
 ---
 
@@ -26,10 +26,10 @@ Consolidated Spec Generated — `.ai-context/specs/internal-transfer-sdd.spec.md
 
 | Spec ID | Feature Title | Status | Gate 1 | Gate 2 | Developer | Last Updated |
 |---|---|---|---|---|---|---|
-| `internal-transfer-sdd` | Employee Internal Transfer — Full System SDD | Draft — Pending Gate 1 | Supratim Jetty | Soumyadeep Adhikary | Sayanik Sutradhar | 2026-09-21 |
+| `internal-transfer-sdd` | Employee Internal Transfer — Full System SDD | On Hold — Pending Gate 0 Approval | Supratim Jetty | Soumyadeep Adhikary | Sayanik Sutradhar | 2026-09-24 |
 
-> ✅ BRD Gate 0 **Approved** on 2026-09-21 by Sayanik Sutradhar. Spec generation is **UNBLOCKED**.
-> ⏳ Spec **`internal-transfer-sdd.spec.md`** is Draft — send to Supratim Jetty (supratim.jetty@intglobal.com) for Gate 1 review.
+> ⚠️ Spec submission for Gate 1 is **ON HOLD** pending formal Gate 0 BRD approval by Supratim Jetty (supratim.jetty@intglobal.com).
+> Spec artifact: `.ai-context/specs/internal-transfer-sdd.spec.md`
 > Gate 2 Reviewer: Soumyadeep Adhikary (soumyadeep@intglobal.com)
 
 ---
@@ -93,3 +93,11 @@ Spec authoring order (dependency chain):
 - **Next**: Begin feature spec authoring — starting with `auth` spec (`auth.spec.md`).
 - **All 5 specs generated** (2026-09-21): `auth`, `transfer-requests`, `approvals`, `notifications`, `audit` — all set to Draft — Pending Gate 1.
 - Next: Gate 1 review by Supratim Jetty (supratim.jetty@intglobal.com) for each spec.
+
+### 2026-09-24
+- **Gate 0 Review Status Reverted to Pending**: Corrected reviewer assignment per Reviewer Roster governance in `project_context.md` and `AGENTS.md`. Gate 0 BRD Reviewer is Supratim Jetty (Project Manager, supratim.jetty@intglobal.com).
+- Reverted `.ai-context/BRD.md` status to "Pending Review" (Gate 0).
+- Reverted `.ai-context/pr_reviews/BRD-20260921-124139.md` to "Pending Review" with Supratim Jetty assigned as reviewer.
+- Updated `.ai-context/brd-change-log.md` Gate 0 status to "Pending Review".
+- **Gate 1 Spec Submission Held**: Spec `.ai-context/specs/internal-transfer-sdd.spec.md` marked "On Hold — Pending Gate 0 Approval". Gate 1 review submission is held until Gate 0 is formally reviewed and approved by Supratim Jetty.
+- BRD baseline shared with Supratim Jetty for formal Gate 0 review.

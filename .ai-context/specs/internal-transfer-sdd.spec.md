@@ -4,7 +4,7 @@
 `internal-transfer-sdd`
 
 ## Status
-Draft — Pending Gate 1
+Draft — On Hold (Pending Gate 0 BRD Approval)
 
 ## Roles & Assignments
 - **Developer:** Sayanik Sutradhar (sayanik.sutradhar@intglobal.com)
@@ -748,4 +748,4 @@ The following are unresolved at spec authoring time. They must be resolved befor
 
 ---
 
-*This spec covers the complete Employee Internal Transfer system (BRD v1.0 — Gate 0 approved 2026-09-21). Submit to Gate 1 reviewer: Supratim Jetty (supratim.jetty@intglobal.com).*
+*This spec covers the complete Employee Internal Transfer system (BRD v1.0 — Pending Gate 0 Review). Gate 1 submission is ON HOLD until Gate 0 is formally reviewed and approved by Supratim Jetty (supratim.jetty@intglobal.com).*

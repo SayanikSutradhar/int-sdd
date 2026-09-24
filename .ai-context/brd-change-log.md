@@ -114,13 +114,13 @@ Initial Employee Internal Transfer BRD baseline ingested from `docs/Requirement_
 - RBAC enforcement across 4 roles (Employee, Manager, HR Administrator, System Administrator)
 
 **Gate 0 Status:**
-✅ Approved
+⏳ Pending Review
 
 **Approval Date:**
-2026-09-21
+—
 
 **Approved By:**
-Sayanik Sutradhar (sayanik.sutradhar@intglobal.com) — Software Engineer / Gate 0 BRD Reviewer
+Pending Review (Assigned: Supratim Jetty — supratim.jetty@intglobal.com)
 
 **Approval Notes:**
-Gate 0 BRD PR Review approved by Sayanik Sutradhar on 2026-09-21. Spec generation is UNBLOCKED. 10 open questions to be resolved incrementally during spec development / before Gate 1.
+Gate 0 review reverted to Pending per Reviewer Roster governance. Awaiting formal Gate 0 BRD review by Supratim Jetty (Project Manager / Gate 0 Reviewer). Spec generation and Gate 1 submission held until Gate 0 is approved.

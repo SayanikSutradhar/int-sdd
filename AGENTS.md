@@ -50,7 +50,7 @@ User name matching is NOT sufficient — email must match exactly.
 ### Gate 0 — BRD Review
 | Reviewer | Email | Role |
 |---|---|---|
-| Sayanik Sutradhar | sayanik.sutradhar@intglobal.com | Software Engineer / BRD Reviewer |
+| Supratim Jetty | supratim.jetty@intglobal.com | Project Manager / BRD Reviewer |
 
 ### Gate 1 — Spec Peer Review
 | Reviewer | Email | Role |

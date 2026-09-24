@@ -5,8 +5,8 @@ Modular Monolith (Microservice Ready)
 
 Local development runs as a single deployable monolith. Business modules have clear boundaries and minimal coupling, enabling future extraction into independent services without major refactoring.
 
-**BRD Version:** 1.0 (Approved Gate 0 — 2026-09-21)
-**Architecture Status:** BRD-Derived — Pending Gate 1 Spec Approval
+**BRD Version:** 1.0 (Pending Gate 0 Review)
+**Architecture Status:** Proposed (BRD-Derived) — Pending Gate 0 BRD Approval & Gate 1 Spec Approval
 
 ---
 
